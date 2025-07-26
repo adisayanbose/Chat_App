@@ -1,12 +1,12 @@
 {
-  "name": "ws_server",
+  "name": "@repo/zod_schema",
   "version": "1.0.0",
   "main": "index.js",
+  "exports":{
+    "./users":"./src/userschemas.ts"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build":"tsc -b",
-    "start":"node dist/index.js",
-    "dev":"npm run build&& npm run start"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "@repo/typescript-config":"workspace:*"
