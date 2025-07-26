@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "exports":{
-    "./users":"./src/userschemas.ts"
+    "./users":"./src/userschemas.ts",
+    "./rooms":"./src/roomschemas.ts"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

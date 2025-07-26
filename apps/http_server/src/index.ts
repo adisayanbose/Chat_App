@@ -2,7 +2,9 @@ import express from "express";
 import bcrypt from "bcrypt";
 import { prismaclient } from "@repo/database/client";
 import { usersigninschema, usersignupschema } from "@repo/zod_schema/users";
+import { createroomschema } from "@repo/zod_schema/rooms";
 import jwt from "jsonwebtoken";
+import { userauth } from "./middlewares/userauth";
 const dotenv = require("dotenv");
 
 const app = express();
@@ -100,10 +102,40 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-app.post("/create-room", (req, res) => {
-  res.json({
-    message: "create-room endpoint",
-  });
+app.post("/create-room",userauth,async (req, res) => {
+  const parsedbody = createroomschema.safeParse(req.body);
+  if(!parsedbody.success)
+  {
+    res.json({
+      message:"incomplete credentials"
+    })
+  }
+  else{
+    const roomexists=await prismaclient.room.findFirst({
+      where:{
+        name:parsedbody.data.name
+      }
+    })
+    if(roomexists)
+    {
+      res.json({
+        message:"room name already exists"
+      })
+      return
+    }
+    const userId=req.userId
+    const room =await prismaclient.room.create({
+      data:{
+        name:parsedbody.data.name,
+        adminId:userId
+      }
+    })
+    res.json({
+      message:"room created",
+      room_id:room.roomId,
+      name:room.name
+    })
+  }
 });
 
 app.listen(8000, () => {
