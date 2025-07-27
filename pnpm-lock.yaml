@@ -108,6 +108,10 @@ importers:
         version: 5.8.2
 
   apps/ws_server:
+    dependencies:
+      '@repo/database':
+        specifier: workspace:*
+        version: link:../../packages/database
     devDependencies:
       '@repo/typescript-config':
         specifier: workspace:*

@@ -5,7 +5,7 @@ import { usersigninschema, usersignupschema } from "@repo/zod_schema/users";
 import { createroomschema } from "@repo/zod_schema/rooms";
 import jwt from "jsonwebtoken";
 import { userauth } from "./middlewares/userauth";
-const dotenv = require("dotenv");
+import dotenv from "dotenv"
 
 const app = express();
 dotenv.config({ path: "../../.env" });
@@ -132,7 +132,7 @@ app.post("/create-room",userauth,async (req, res) => {
     })
     res.json({
       message:"room created",
-      room_id:room.roomId,
+      roomId:room.roomId,
       name:room.name
     })
   }
