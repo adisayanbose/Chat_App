@@ -96,6 +96,14 @@ wss.on("connection", (ws, req) => {
         return;
       }
       const roomId = parseddata.roomId;
+      const chat=prismaclient.chat.create({
+        data:{
+            roomId:parseddata.data.roomId,
+            userId:userId,
+            message:parseddata.messaage
+        }
+      })
+      
       const sameroomusers = users.filter((user) => user.rooms.includes(roomId));
       sameroomusers.forEach((user) => {
         user.ws.send(parseddata.message);

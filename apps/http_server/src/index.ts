@@ -138,6 +138,32 @@ app.post("/create-room",userauth,async (req, res) => {
   }
 });
 
+app.get("/room/:roomname",async (req,res)=>{
+  const room=await prismaclient.room.findFirst({
+    where:{
+      name:req.params.roomname
+    }
+  })
+  res.json({
+    room:room
+  })
+})
+
+app.get("/chats/:roomId",async (req,res)=>{
+  const chats=await prismaclient.chat.findMany({
+    where:{
+      roomId:Number(req.params.roomId)
+    },
+    orderBy:{
+      roomId:"asc"
+    },
+    take:50
+  })
+  res.json({
+    chats:chats
+  })
+})
+
 app.listen(8000, () => {
   console.log("http server on port 8000");
 });
